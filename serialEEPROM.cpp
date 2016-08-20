@@ -1,7 +1,6 @@
 #include <serialEEPROM.h>
 #include <Wire.h>
 
-
 #define EEPROM_BUFF_LEN (BUFFER_LENGTH - 2) /* Arduino Wire Buffer is 32 bytes, 2 are used for address */
 
 /* Constructor for serialEEPROM class */
@@ -11,6 +10,22 @@ serialEEPROM::serialEEPROM(uint8_t deviceAddress, uint16_t memSize, uint8_t page
   _pageSize(pageSize)
 {
   Wire.begin();
+}
+
+void serialEEPROM::erase(void)
+{
+  uint8_t data[EEPROM_BUFF_LEN];
+  int i = 0;
+  
+  for(i = 0; i < sizeof(data); i++)
+  {
+    data[i] = 0xFF;
+  }
+
+  for(i = 0; i < (_memSize/sizeof(data)); i++)
+  {
+    write((uint16_t)(sizeof(data)*i), (uint8_t*)data, sizeof(data));
+  }
 }
 
 void serialEEPROM::write(uint16_t memaddress, uint8_t data)
@@ -26,6 +41,7 @@ void serialEEPROM::write(uint16_t memaddress, uint8_t*  src, int len)
   uint8_t pageSpace  = 0; /* Available page space */
   uint8_t pageOffset = 0; /* Current page offset */
   uint8_t packLength = 0; /* Length of package to send */
+  uint16_t mAddress = 0;  /* Address to write */
 
   /* Memory protection, don't write beyond memory limits */
   if((memaddress + len) >= _memSize)
@@ -35,8 +51,9 @@ void serialEEPROM::write(uint16_t memaddress, uint8_t*  src, int len)
 
   for(index = 0; index < len; index += packLength)
   {
+    mAddress = (memaddress + index);
     /* Check available page space */
-    pageOffset = (uint8_t)((memaddress + index) % _pageSize);
+    pageOffset = (uint8_t)(mAddress % _pageSize);
     pageSpace = (_pageSize - pageOffset); 
 
     if(pageSpace <= EEPROM_BUFF_LEN) 
@@ -57,8 +74,11 @@ void serialEEPROM::write(uint16_t memaddress, uint8_t*  src, int len)
     }
 
     Wire.beginTransmission(_address);
-    Wire.write((uint8_t)(memaddress >> 8)); /* ADDR MSB */
-    Wire.write((uint8_t)(memaddress & 0xFF)); /* ADDR LSB */
+    if(0xFF < _memSize)
+    {
+      Wire.write((uint8_t)(mAddress >> 8)); /* ADDR MSB */
+    }
+    Wire.write((uint8_t)(mAddress & 0xFF)); /* ADDR LSB */
     for (i = 0; i < packLength; i++)
     {
       Wire.write(*src++);
@@ -96,7 +116,10 @@ void serialEEPROM::read(uint16_t memaddress, uint8_t* dest, int len)
   }
 
   Wire.beginTransmission(_address);
-  Wire.write((uint8_t)(memaddress >> 8));   // MSB
+  if(0xFF < _memSize)
+  {
+    Wire.write((uint8_t)(memaddress >> 8));   // MSB
+  }
   Wire.write((uint8_t)(memaddress & 0xFF)); // LSB
   Wire.endTransmission();
 
@@ -123,6 +146,7 @@ void serialEEPROM::dump(HardwareSerial &port, uint16_t memaddress, int len)
   uint8_t pageSpace  = 0; /* Available page space */
   uint8_t pageOffset = 0; /* Current page offset */
   uint8_t packLength = 0; /* Length of package to send */
+  uint16_t addr = 0;      /* Address to print */
 
   /* Memory protection, don't write beyond memory limits */
   if((memaddress + len) >= _memSize)
@@ -133,11 +157,12 @@ void serialEEPROM::dump(HardwareSerial &port, uint16_t memaddress, int len)
   for(index = 0; index < len; index += packLength)
   {
     /* Print memory address */
-    port.print((memaddress + index), HEX);
+    addr = (memaddress + index);
+    PrintHex16(port, &addr, 1);
     port.print(": ");
     
     /* Check available page space */
-    pageOffset = (uint8_t)((memaddress + index) % _pageSize);
+    pageOffset = (uint8_t)(addr % _pageSize);
     pageSpace = (_pageSize - pageOffset); 
 
     if(pageSpace <= EEPROM_BUFF_LEN) 
@@ -157,13 +182,9 @@ void serialEEPROM::dump(HardwareSerial &port, uint16_t memaddress, int len)
       packLength = (uint8_t)(len - index);
     }
 
-    read((memaddress + index), (uint8_t*) data, sizeof(data));
+    read(addr, (uint8_t*)data, sizeof(data));
 
-    for (i = 0; i < packLength; i++)
-    {
-      port.print(data[i], HEX);
-      port.print(" ");
-    }
+    PrintHex8(port, (uint8_t*)data, packLength);
 
     port.print("| ");
 
@@ -173,9 +194,48 @@ void serialEEPROM::dump(HardwareSerial &port, uint16_t memaddress, int len)
       {
         port.write(data[i]);
       }
+      else
+      {
+        port.write('=');
+      }
     }
 
     port.println();
+  }
+}
+
+void serialEEPROM::PrintHex8(HardwareSerial &port, uint8_t *data, uint8_t length) // prints 8-bit data in hex with leading zeroes
+{
+  for (int i = 0; i < length; i++) 
+  { 
+    // ort.print("0x"); 
+    if (data[i] < 0x10) 
+    {
+      port.print("0");
+    } 
+    port.print(data[i],HEX); 
+    port.print(" "); 
+  }
+}
+
+void serialEEPROM::PrintHex16(HardwareSerial &port, uint16_t *data, uint8_t length) // prints 16-bit data in hex with leading zeroes
+{
+  for (int i = 0; i < length; i++)
+  { 
+    // port.print("0x"); 
+    uint8_t MSB = byte(data[i] >> 8);
+    uint8_t LSB = byte(data[i]);
+    if (MSB < 0x10) 
+    {
+      port.print("0");
+    } 
+    port.print(MSB,HEX); 
+    if (LSB < 0x10)
+    {
+      port.print("0");
+    }
+    port.print(LSB,HEX); 
+    port.print(" "); 
   }
 }
 #endif

@@ -6,11 +6,14 @@
 
 #include "Arduino.h"
  
-#define EEPROM_DUMP_EN 1 /* Enable(1)/Disabled(0) EEPROM Dump method, Disabled by default */
+#define EEPROM_DUMP_EN 0 /* Enable(1)/Disabled(0) EEPROM Dump method, Disabled by default */
 
 class serialEEPROM {
   public:
     serialEEPROM(uint8_t deviceAddress, uint16_t memSize, uint8_t pageSize);
+
+    /* Write full memory with 0xFF */
+    void erase(void);
 
     void write(uint16_t memaddress, uint8_t data);
     void write(uint16_t memaddress, uint8_t*  src, int len);
@@ -20,6 +23,8 @@ class serialEEPROM {
 
 #if (EEPROM_DUMP_EN == 1)
     void dump(HardwareSerial &port, uint16_t memaddress, int len);
+    void PrintHex8(HardwareSerial &port, uint8_t *data, uint8_t length);
+    void PrintHex16(HardwareSerial &port, uint16_t *data, uint8_t length);
 #endif
 
   private:
