@@ -11,8 +11,8 @@ AT24C256    |       X      |              |            | 32768        | 64      
 AT24C128    |       X      |              |            | 16384        | 64                | 0x50 ~ 0x53
 24C01C      |       X      |              |            | 128          | 16                | 0x50 ~ 0x57
 
-  * [AT24C128/256|http://www.atmel.com/Images/doc0670.pdf]: Atmel 128K/256K I2C EEPROM (16KB/32KB)
-  * [24C01C|http://ww1.microchip.com/downloads/en/DeviceDoc/21201K.pdf]: Microchip 1K I2C EEPROM (128B)
+  * [AT24C128/256](http://www.atmel.com/Images/doc0670.pdf): Atmel 128K/256K I2C EEPROM (16KB/32KB)
+  * [24C01C](http://ww1.microchip.com/downloads/en/DeviceDoc/21201K.pdf): Microchip 1K I2C EEPROM (128B)
 
 <!-- END COMPATIBILITY TABLE -->
 
