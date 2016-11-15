@@ -93,7 +93,7 @@ void serialEEPROM::write(uint16_t memaddress, uint8_t*  src, int len)
     else
     {
       /* Delay ~3.5 ms to ensure byte write */
-      delay(4);    
+      delay(5);
     }
   }
 }
