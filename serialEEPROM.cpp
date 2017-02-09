@@ -9,7 +9,7 @@ serialEEPROM::serialEEPROM(uint8_t deviceAddress, uint16_t memSize, uint8_t page
   _memSize(memSize),
   _pageSize(pageSize)
 {
-  Wire.begin();
+  
 }
 
 void serialEEPROM::erase(void)
@@ -33,21 +33,36 @@ void serialEEPROM::write(uint16_t memaddress, uint8_t data)
   write(memaddress, &data, 1);
 }
 
-void serialEEPROM::write(uint16_t memaddress, uint8_t*  src, int len)
+void serialEEPROM::write(uint16_t memaddress, uint8_t* src, int len)
 {
+  /* Memory protection, don't write beyond memory limits */
+  if((memaddress + len) >= _memSize)
+  {
+    len = (_memSize - memaddress);
+  }
+
+#if 1
   uint8_t i;
+
+  for(i = 0; i < len; i++)
+  {
+    Wire.beginTransmission(_address);
+    Wire.write((int)((memaddress >> 8) & 0xFF));   // MSB
+    Wire.write((int)(memaddress & 0xFF)); // LSB
+    Wire.write(*src++);
+    Wire.endTransmission();
+    delay(5);
+
+    memaddress++;
+  }
   
+#else
   int index = 0;          /* Sent bytes */
   uint8_t pageSpace  = 0; /* Available page space */
   uint8_t pageOffset = 0; /* Current page offset */
   uint8_t packLength = 0; /* Length of package to send */
   uint16_t mAddress = 0;  /* Address to write */
 
-  /* Memory protection, don't write beyond memory limits */
-  if((memaddress + len) >= _memSize)
-  {
-    len = (_memSize - memaddress);
-  }
 
   for(index = 0; index < len; index += packLength)
   {
@@ -96,6 +111,9 @@ void serialEEPROM::write(uint16_t memaddress, uint8_t*  src, int len)
       delay(4);    
     }
   }
+#endif
+
+
 }
 
 uint8_t serialEEPROM::read(uint16_t memaddress)
