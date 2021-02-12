@@ -1,11 +1,12 @@
 /* 
  * Arduino Library for I2C EEPROM
  * @author: Hugo Arganda 
- * @date: 08/19/2016
+ * @date: 2/12/2021
  */
 
 #include "Arduino.h"
- 
+#include <Wire.h>
+
 #define EEPROM_DUMP_EN 0 /* Enable(1)/Disabled(0) EEPROM Dump method, Disabled by default */
 
 class serialEEPROM {

@@ -1,4 +1,3 @@
-#include <Wire.h>
 #include <serialEEPROM.h>
 
 /*
@@ -25,7 +24,7 @@ void setup()
 	Serial.println(num, HEX);
 
 	/* Write buffer (Address 0x30) */
-	char* name = "Hello World!";
+	const char* name = "Hello World!";
 	myEEPROM.write(0x30, (uint8_t*)name, strlen(name)+1);
 
 	/* Read buffer (Address 0x30) */
