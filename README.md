@@ -1,6 +1,8 @@
-# serialEEPROM
-
 [![Arduino CI](https://github.com/argandas/serialEEPROM/workflows/Arduino_CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/I2C_EEPROM/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/I2C_EEPROM.svg?maxAge=3600)](https://github.com/RobTillaart/I2C_EEPROM/releases)
+
+# serialEEPROM
 
 Arduino Library for I2C EEPROM
 
