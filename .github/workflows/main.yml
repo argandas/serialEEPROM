@@ -4,19 +4,8 @@ on: [push, pull_request]
 
 jobs:
   arduino_ci:
-    name: Arduino CI - OS (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    strategy:
-          fail-fast: false
-          matrix:
-            os: [ubuntu-latest, macos-latest, windows-latest]
-            include:
-              - os: windows-latest
-                triplet: x64-windows
-              - os: ubuntu-latest
-                triplet: x64-linux
-              - os: macos-latest
-                triplet: x64-osx
+    name: "Arduino CI - OS(Ubuntu)"
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: Arduino-CI/action@master
