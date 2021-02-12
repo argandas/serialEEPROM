@@ -30,25 +30,3 @@ serialEEPROM myEEPROM(0x50, 128, 16);
 Where "0x50" is the device address, 128 is the memory size in bytes and 16 is the page address in bytes.
 
 For more information about how to use this library please take a look on the examples folder.
-
-## License
-
--------------------------------------------------------------------------------
-
-		DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
-				Version 2, December 2004 
-
-		Copyright (C) 2014 ITEAD Studio
-
-		Everyone is permitted to copy and distribute verbatim or modified 
-		copies of this license document, and changing it is allowed as long 
-		as the name is changed. 
-
-				DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
-				
-		TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION 
-
-		0. You just DO WHAT THE FUCK YOU WANT TO.
-
--------------------------------------------------------------------------------
-
