@@ -1,4 +1,7 @@
 # serialEEPROM
+
+[![Arduino CI](https://github.com/argandas/serialEEPROM/workflows/Arduino_CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+
 Arduino Library for I2C EEPROM
 
 <!-- START COMPATIBILITY TABLE -->
