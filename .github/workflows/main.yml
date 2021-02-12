@@ -1,3 +1,4 @@
+---
 name: Arduino CI
 
 on: [push, pull_request]
@@ -9,7 +10,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: Arduino-CI/action@master
-        env:
-          USE_SUBDIR: .
-          EXPECT_EXAMPLES: false
-          EXPECT_UNITTESTS: false
+          #   Arduino-CI/action@v0.1.1
