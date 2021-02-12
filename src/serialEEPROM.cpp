@@ -1,5 +1,4 @@
 #include <serialEEPROM.h>
-#include <Wire.h>
 
 #define EEPROM_BUFF_LEN 30 /* Arduino Wire Buffer is 32 bytes, 2 are used for address */
 
