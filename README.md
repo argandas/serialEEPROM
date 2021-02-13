@@ -1,10 +1,11 @@
 [![Arduino CI](https://github.com/argandas/serialEEPROM/workflows/Arduino_CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/I2C_EEPROM/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/v/release/argandas/serialeeprom.svg?maxAge=3600)](https://github.com/argandas/serialEEPROM/releases)
+[![GitHub release](https://img.shields.io/github/v/release/argandas/serialeeprom)](https://github.com/argandas/serialEEPROM/releases)
 
 # serialEEPROM
 
 Arduino Library for I2C EEPROM
+
 
 <!-- START COMPATIBILITY TABLE -->
 
