@@ -14,6 +14,9 @@ void setup()
 	Serial.begin(9600);
 	Serial.println("Microchip 24C01C EEPROM Memory Example");
 	
+	/* Initialize the I2C interface */
+	Wire.begin();
+	
 	/* Write byte (Address 0x10) */
 	myEEPROM.write(0x10, 0x87);
 

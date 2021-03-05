@@ -1,20 +1,19 @@
 #include <serialEEPROM.h>
 
 /*
- * Atmel AT24C128 EEPROM Memory
+ * Atmel AT24C256 EEPROM Memory
  * Device Address 0x50 (A0 = GND, A1 = GND)
- * 128K bit memory = 16384 Bytes
+ * 256K bit memory = 32768 Bytes
  * 64-Byte Page Write Buffer
  */
 
-serialEEPROM myEEPROM(0x50, 16384, 64);
+serialEEPROM myEEPROM(0x50, 32768, 64);
 
 void setup()
 {
 	Serial.begin(9600);
-	Serial.println("Atmel AT24C128 EEPROM Memory Example");
+	Serial.println("Atmel AT24C256 EEPROM Memory Example");
 
-	/* Initialize the I2C interface */
 	Wire.begin();
 	
 	/* Write byte (Address 0x10) */

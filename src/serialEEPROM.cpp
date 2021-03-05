@@ -8,7 +8,6 @@ serialEEPROM::serialEEPROM(uint8_t deviceAddress, uint16_t memSize, uint8_t page
   _memSize(memSize),
   _pageSize(pageSize)
 {
-  
 }
 
 void serialEEPROM::erase(void)
@@ -40,8 +39,8 @@ void serialEEPROM::write(uint16_t memaddress, uint8_t* src, int len)
     len = (_memSize - memaddress);
   }
 
-#if 1
   uint8_t i;
+#if 1
 
   for(i = 0; i < len; i++)
   {
